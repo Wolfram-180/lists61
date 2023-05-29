@@ -60,9 +60,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ];
             }),
-            body: Container(
-              color: Colors.green,
-            ),
+            body: TabBarView(children: [
+              for (String item in _titles)
+                CustomScrollView(
+                  slivers: [
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          return ListTile(
+                            title: Text('Item $index'),
+                          );
+                        },
+                        childCount: 30,
+                      ),
+                    ),
+                  ],
+                ),
+            ]),
           ),
         ),
       ),
