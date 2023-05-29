@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
               return <Widget>[
                 SliverAppBar(
                   title: const Text('Sliver App Bar'),
-                  pinned: true,
+                  pinned: false,
                   expandedHeight: 150,
                   bottom: TabBar(
                       tabs: _titles
@@ -63,25 +63,45 @@ class _MyHomePageState extends State<MyHomePage> {
             body: TabBarView(
               children: [
                 for (String item in _titles)
-                  CustomScrollView(
-                    slivers: [
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                            return ListTile(
-                              title: Text('Item $index'),
-                            );
-                          },
-                          childCount: 30,
+                  OverscrollGlowAbsorber(
+                    child: CustomScrollView(
+                      slivers: [
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                              return ListTile(
+                                title: Text('Item $index'),
+                              );
+                            },
+                            childCount: 30,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class OverscrollGlowAbsorber extends StatelessWidget {
+  final Widget child;
+  const OverscrollGlowAbsorber({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return NotificationListener(
+      child: child,
+      onNotification: (notification) {
+        if (notification is OverscrollIndicatorNotification) {
+          notification.disallowIndicator();
+        }
+        return false;
+      },
     );
   }
 }
