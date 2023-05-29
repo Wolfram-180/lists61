@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 
 void main() {
   runApp(const MyApp());
@@ -65,6 +66,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 for (String item in _titles)
                   OverscrollGlowAbsorber(
                     child: CustomScrollView(
+                      physics: Platform.isAndroid
+                          ? const ClampingScrollPhysics()
+                          : const BouncingScrollPhysics(),
                       slivers: [
                         SliverList(
                           delegate: SliverChildBuilderDelegate(
