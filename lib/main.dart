@@ -35,6 +35,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<String> _titles = ['One', 'Two', 'Three'];
 
+  final ScrollController _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,19 +67,38 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 for (String item in _titles)
                   OverscrollGlowAbsorber(
-                    child: CustomScrollView(
-                      physics: Platform.isAndroid
-                          ? const ClampingScrollPhysics()
-                          : const BouncingScrollPhysics(),
-                      slivers: [
-                        SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                              return ListTile(
-                                title: Text('Item $index'),
-                              );
-                            },
-                            childCount: 30,
+                    child: Column(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            _scrollController.animateTo(
+                              1000,
+                              duration: Duration(
+                                seconds: 5,
+                              ),
+                              curve: Curves.linear,
+                            );
+                          },
+                          child: Text('Вниз'),
+                        ),
+                        Flexible(
+                          child: CustomScrollView(
+                            controller: _scrollController,
+                            physics: Platform.isAndroid
+                                ? const ClampingScrollPhysics()
+                                : const BouncingScrollPhysics(),
+                            slivers: [
+                              SliverList(
+                                delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
+                                    return ListTile(
+                                      title: Text('Item $index'),
+                                    );
+                                  },
+                                  childCount: 30,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
