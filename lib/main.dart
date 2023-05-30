@@ -73,13 +73,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           onPressed: () {
                             _scrollController.animateTo(
                               1000,
-                              duration: Duration(
+                              duration: const Duration(
                                 seconds: 5,
                               ),
                               curve: Curves.linear,
                             );
                           },
-                          child: Text('Вниз'),
+                          child: const Text('Вниз'),
                         ),
                         Flexible(
                           child: CustomScrollView(
